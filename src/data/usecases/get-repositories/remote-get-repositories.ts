@@ -9,7 +9,11 @@ export class RemoteGetRepositories implements GetRepositories {
   ) {}
 
   async get (params: QueryParamsDTO): Promise<Paginator<Repository[]>> {
-    await this.httpClient.request({ url: this.url, method: 'GET' })
+    await this.httpClient.request({
+      url: this.url,
+      method: 'GET',
+      params
+    })
     return (await Promise.resolve(null)) as any
   }
 }

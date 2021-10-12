@@ -7,6 +7,7 @@ export type HttpRequest<RequestBody = any> = {
   method: methods
   body?: RequestBody
   headers?: any
+  params?: object
 }
 
 export interface HttpClient<RequestBody = any, ResponseBody = any> {
