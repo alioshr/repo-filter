@@ -1,6 +1,6 @@
 import { HttpStatusCode } from '@/data/protocols'
 import { HttpClientSpy, mockedUrl } from '@/data/tests'
-import { UnexpectedError } from '@/domain/errors'
+import { UnavailableError, UnexpectedError } from '@/domain/errors'
 import { Paginator, Repository } from '@/domain/models'
 import { mockedQueryParamsDTO } from '@/domain/tests'
 import {
@@ -52,5 +52,11 @@ describe('RemoteGetRepositories', () => {
     httpClientSpy.response = { statusCode: HttpStatusCode.serverError }
     const promise = sut.get(MOCKED_PARAMS)
     await expect(promise).rejects.toThrow(new UnexpectedError())
+  })
+  test('should throw UnavailableError if HttpGetClient returns 503', async () => {
+    const { sut, httpClientSpy } = makeSut()
+    httpClientSpy.response = { statusCode: HttpStatusCode.unavailable }
+    const promise = sut.get(MOCKED_PARAMS)
+    await expect(promise).rejects.toThrow(new UnavailableError())
   })
 })
