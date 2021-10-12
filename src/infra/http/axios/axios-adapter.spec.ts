@@ -53,4 +53,15 @@ describe('AxiosAdapter', () => {
     const httpResponse = await sut.request(REQUEST_PARAMS)
     expect(httpResponse).toEqual(mockedHttpResponse)
   })
+  test('Should return a proper HttpResponse on failure', async () => {
+    const { sut } = makeSut()
+    jest.spyOn(axios, 'request').mockRejectedValueOnce({
+      response: mockedAxiosResponse(mockedHttpResponse)
+    })
+    const result = await sut.request(REQUEST_PARAMS)
+    expect(result).toEqual({
+      statusCode: mockedHttpResponse.statusCode,
+      body: mockedHttpResponse.body
+    })
+  })
 })
