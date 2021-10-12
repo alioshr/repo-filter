@@ -28,4 +28,9 @@ describe('RemoteGetRepositories', () => {
     expect(httpClientSpy.url).toBe(URL)
     expect(httpClientSpy.method).toBe('GET')
   })
+  test('Should call HttpClient with the correct params', async () => {
+    const { sut, httpClientSpy } = makeSut()
+    await sut.get(MOCKED_PARAMS)
+    expect(httpClientSpy.params).toBe(MOCKED_PARAMS)
+  })
 })
