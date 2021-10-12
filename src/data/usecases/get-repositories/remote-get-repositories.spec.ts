@@ -1,4 +1,6 @@
+import { HttpStatusCode } from '@/data/protocols'
 import { HttpClientSpy, mockedUrl } from '@/data/tests'
+import { UnexpectedError } from '@/domain/errors'
 import { Paginator, Repository } from '@/domain/models'
 import { mockedQueryParamsDTO } from '@/domain/tests'
 import {
@@ -32,5 +34,11 @@ describe('RemoteGetRepositories', () => {
     const { sut, httpClientSpy } = makeSut()
     await sut.get(MOCKED_PARAMS)
     expect(httpClientSpy.params).toBe(MOCKED_PARAMS)
+  })
+  test('should throw UnexpectedError if HttpGetClient returns 403', async () => {
+    const { sut, httpClientSpy } = makeSut()
+    httpClientSpy.response = { statusCode: HttpStatusCode.forbidden }
+    const promise = sut.get(MOCKED_PARAMS)
+    await expect(promise).rejects.toThrow(new UnexpectedError())
   })
 })
