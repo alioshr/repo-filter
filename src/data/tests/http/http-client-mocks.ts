@@ -4,6 +4,8 @@ import { HttpRequest, HttpResponse, HttpStatusCode } from '../../protocols'
 export const mockedUrl = (): any => faker.internet.url()
 export const mockedBody = (): any => faker.random.objectElement()
 export const mockedHeaders = (): any => faker.random.objectElement()
+export const mockedMethod = (): any => faker.helpers.randomize(['GET', 'POST', 'PUT', 'DELETE', 'PATCH'])
+export const mockedParams = (): any => faker.random.objectElement()
 
 export const mockedHttpRequest = (
   data: HttpRequest
