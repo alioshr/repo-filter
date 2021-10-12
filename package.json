@@ -1,5 +1,5 @@
 {
-  "name": "ANOVA Test",
+  "name": "anova-test",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -35,6 +35,6 @@
     "typescript": "^4.4.3"
   },
   "dependencies": {
-    "axios": "^0.22.0"
+    "axios": "^0.21.4"
   }
 }
