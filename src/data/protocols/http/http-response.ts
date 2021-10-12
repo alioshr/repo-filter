@@ -1,11 +1,10 @@
 export enum HttpStatusCode {
   ok = 200,
-  noContent = 204,
-  unauthorized = 401,
-  badRequest = 400,
+  notModified = 304,
   forbidden = 403,
-  notFound = 404,
-  serverError = 500
+  unprocessableEntity = 422,
+  serverError = 500,
+  unavailable = 503
 }
 
 export type HttpResponse<BodyType = any> = {

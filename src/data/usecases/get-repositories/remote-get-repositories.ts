@@ -1,4 +1,5 @@
-import { HttpClient } from '@/data/protocols'
+import { HttpClient, HttpStatusCode } from '@/data/protocols'
+import { UnexpectedError } from '@/domain/errors'
 import { Paginator, Repository } from '@/domain/models'
 import { GetRepositories, QueryParamsDTO } from '@/domain/usecases/get-repositories'
 
@@ -9,11 +10,14 @@ export class RemoteGetRepositories implements GetRepositories {
   ) {}
 
   async get (params: QueryParamsDTO): Promise<Paginator<Repository[]>> {
-    await this.httpClient.request({
+    const httpResponse = await this.httpClient.request({
       url: this.url,
       method: 'GET',
       params
     })
-    return (await Promise.resolve(null)) as any
+    switch (httpResponse.statusCode) {
+      case HttpStatusCode.ok: return null as any
+      default: throw new UnexpectedError()
+    }
   }
 }
