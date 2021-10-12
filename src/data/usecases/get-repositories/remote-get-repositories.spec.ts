@@ -59,11 +59,21 @@ describe('RemoteGetRepositories', () => {
     const promise = sut.get(MOCKED_PARAMS)
     await expect(promise).rejects.toThrow(new UnavailableError())
   })
-  test('should return a repositories on success', async () => {
+  test('should return a repositories on 200', async () => {
     const { sut, httpClientSpy } = makeSut()
     const responseData = mockedRepositoriesPaginator()
     httpClientSpy.response = {
       statusCode: HttpStatusCode.ok,
+      body: responseData
+    }
+    const httpResponse = await sut.get(MOCKED_PARAMS)
+    expect(httpResponse).toEqual(responseData)
+  })
+  test('should return a repositories on 304', async () => {
+    const { sut, httpClientSpy } = makeSut()
+    const responseData = mockedRepositoriesPaginator()
+    httpClientSpy.response = {
+      statusCode: HttpStatusCode.notModified,
       body: responseData
     }
     const httpResponse = await sut.get(MOCKED_PARAMS)
