@@ -3,7 +3,7 @@ import { Owner } from '.'
 export type Repository = {
   allow_forking: boolean
   archive_url: string
-  archived: true
+  archived: boolean
   assignees_url: string
   blobs_url: string
   branches_url: string
