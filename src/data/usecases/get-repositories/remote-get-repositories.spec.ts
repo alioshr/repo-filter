@@ -2,7 +2,7 @@ import { HttpStatusCode } from '@/data/protocols'
 import { HttpClientSpy, mockedUrl } from '@/data/tests'
 import { UnavailableError, UnexpectedError } from '@/domain/errors'
 import { Paginator, Repository } from '@/domain/models'
-import { mockedQueryParamsDTO } from '@/domain/tests'
+import { mockedQueryParamsDTO, mockedRepositoriesPaginator } from '@/domain/tests'
 import {
   GetRepositories,
   QueryParamsDTO
@@ -58,5 +58,15 @@ describe('RemoteGetRepositories', () => {
     httpClientSpy.response = { statusCode: HttpStatusCode.unavailable }
     const promise = sut.get(MOCKED_PARAMS)
     await expect(promise).rejects.toThrow(new UnavailableError())
+  })
+  test('should return a repositories on success', async () => {
+    const { sut, httpClientSpy } = makeSut()
+    const responseData = mockedRepositoriesPaginator()
+    httpClientSpy.response = {
+      statusCode: HttpStatusCode.ok,
+      body: responseData
+    }
+    const httpResponse = await sut.get(MOCKED_PARAMS)
+    expect(httpResponse).toEqual(responseData)
   })
 })

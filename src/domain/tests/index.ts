@@ -1,1 +1,2 @@
-export * from './usecases/get-repository-mocks'
+export * from './mocks/get-repository-mock'
+export * from './mocks/repository-paginator-mock'
