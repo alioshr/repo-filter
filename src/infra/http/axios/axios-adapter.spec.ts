@@ -48,4 +48,9 @@ describe('AxiosAdapter', () => {
       params: REQUEST_PARAMS.params
     })
   })
+  test('Should return a proper HttpResponse on success', async () => {
+    const { sut } = makeSut()
+    const httpResponse = await sut.request(REQUEST_PARAMS)
+    expect(httpResponse).toEqual(mockedHttpResponse)
+  })
 })
