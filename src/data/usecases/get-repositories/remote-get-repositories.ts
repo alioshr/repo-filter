@@ -1,5 +1,5 @@
 import { HttpClient, HttpStatusCode } from '@/data/protocols'
-import { UnexpectedError } from '@/domain/errors'
+import { UnavailableError, UnexpectedError } from '@/domain/errors'
 import { Paginator, Repository } from '@/domain/models'
 import { GetRepositories, QueryParamsDTO } from '@/domain/usecases/get-repositories'
 
@@ -17,6 +17,7 @@ export class RemoteGetRepositories implements GetRepositories {
     })
     switch (httpResponse.statusCode) {
       case HttpStatusCode.ok: return null as any
+      case HttpStatusCode.unavailable: throw new UnavailableError()
       default: throw new UnexpectedError()
     }
   }
