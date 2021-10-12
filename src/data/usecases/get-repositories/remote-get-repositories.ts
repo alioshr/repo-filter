@@ -16,7 +16,7 @@ export class RemoteGetRepositories implements GetRepositories {
       params
     })
     switch (httpResponse.statusCode) {
-      case HttpStatusCode.ok: return null as any
+      case HttpStatusCode.ok: return httpResponse.body
       case HttpStatusCode.unavailable: throw new UnavailableError()
       default: throw new UnexpectedError()
     }
