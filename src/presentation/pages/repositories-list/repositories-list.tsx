@@ -58,7 +58,7 @@ const rows = [
     'repo url'
   ),
   createData(
-    'Repository name',
+    'Repository name123',
     'pretty cool repo',
     '10 feb 2021',
     '10 oct 2021',
@@ -68,7 +68,7 @@ const rows = [
     'repo url'
   ),
   createData(
-    'Repository name',
+    'Repository name11',
     'pretty cool repo',
     '10 feb 2021',
     '10 oct 2021',
@@ -78,7 +78,7 @@ const rows = [
     'repo url'
   ),
   createData(
-    'Repository name',
+    'Repository name8',
     'pretty cool repo',
     '10 feb 2021',
     '10 oct 2021',
@@ -88,7 +88,7 @@ const rows = [
     'repo url'
   ),
   createData(
-    'Repository name',
+    'Repository name5',
     'pretty cool repo',
     '10 feb 2021',
     '10 oct 2021',
@@ -98,7 +98,7 @@ const rows = [
     'repo url'
   ),
   createData(
-    'Repository name',
+    'Repository name4',
     'pretty cool repo',
     '10 feb 2021',
     '10 oct 2021',
@@ -108,7 +108,7 @@ const rows = [
     'repo url'
   ),
   createData(
-    'Repository name',
+    'Repository name3',
     'pretty cool repo',
     '10 feb 2021',
     '10 oct 2021',
@@ -118,7 +118,7 @@ const rows = [
     'repo url'
   ),
   createData(
-    'Repository name',
+    'Repository name1',
     'pretty cool repo',
     '10 feb 2021',
     '10 oct 2021',

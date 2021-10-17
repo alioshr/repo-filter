@@ -18,10 +18,6 @@
     margin-bottom: 2rem;
     form {
       display: flex;
-
-      & .MuiInputBase-root.MuiInput-root.MuiInput-underline::before {
-        border-bottom: solid 1px green !important;
-      }
     }
 
     .input {
