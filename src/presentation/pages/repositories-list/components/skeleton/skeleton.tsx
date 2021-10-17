@@ -1,9 +1,8 @@
-import { TableBody } from '@material-ui/core'
 import React from 'react'
 import Styles from './skeleton-styles.scss'
 
 const Skeleton: React.FC = () => (
-  <TableBody>
+  <React.Fragment>
     {Array(7)
       .fill(undefined)
       .map((a, i) => (
@@ -17,7 +16,7 @@ const Skeleton: React.FC = () => (
           <td></td>
         </tr>
       ))}
-  </TableBody>
+  </ React.Fragment>
 )
 
 export default Skeleton
