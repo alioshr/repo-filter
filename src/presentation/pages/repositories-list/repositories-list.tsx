@@ -1,6 +1,6 @@
 import React from 'react'
 import Styles from './repositories-list-styles.scss'
-import Grid from './components/grid/grid'
+import DataTable from './components/data-table/data-table'
 import { Input, Button } from '@material-ui/core'
 
 const RepositoriesList: React.FC = () => {
@@ -19,7 +19,7 @@ const RepositoriesList: React.FC = () => {
           <Button className={Styles.submitButton}>Submit</Button>
         </form>
       </div>
-      <Grid rows={rows} />
+      <DataTable rows={rows} />
     </div>
   )
 }

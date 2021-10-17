@@ -12,7 +12,7 @@ import {
 } from '@material-ui/core'
 import TablePaginationActions from '../pagination/pagination'
 import Skeleton from '../skeleton/skeleton'
-import Styles from './grid-styles.scss'
+import Styles from './data-table-styles.scss'
 import MainError from '../main-error/main-error'
 import MainData from '../main-data/main-data'
 
@@ -20,7 +20,7 @@ type Props = {
   rows: any[]
 }
 
-const Grid: React.FC<Props> = ({ rows }) => {
+const DataTable: React.FC<Props> = ({ rows }) => {
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(5)
 
@@ -40,7 +40,7 @@ const Grid: React.FC<Props> = ({ rows }) => {
 
   return (
     <TableContainer component={Paper} className={Styles.tableWrapper}>
-      <Table>
+      <Table >
         <TableHead>
           <TableRow>
             <TableCell>Name</TableCell>
@@ -86,4 +86,4 @@ const Grid: React.FC<Props> = ({ rows }) => {
   )
 }
 
-export default Grid
+export default DataTable
