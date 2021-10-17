@@ -53,8 +53,8 @@ const Grid: React.FC<Props> = ({ rows }) => {
             <TableCell align="right">Repo Link</TableCell>
           </TableRow>
         </TableHead>
+        <Skeleton />
         <TableBody>
-          {Array(rowsPerPage).fill(undefined).map((a, i) => <Skeleton key={i}/>)}
           {(rowsPerPage > 0
             ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             : rows
