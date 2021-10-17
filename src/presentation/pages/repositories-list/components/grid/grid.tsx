@@ -11,6 +11,7 @@ import {
   TablePagination
 } from '@material-ui/core'
 import TablePaginationActions from '../pagination/pagination'
+import Skeleton from '../skeleton/skeleton'
 import Styles from './grid-styles.scss'
 
 type Props = {
@@ -53,6 +54,7 @@ const Grid: React.FC<Props> = ({ rows }) => {
           </TableRow>
         </TableHead>
         <TableBody>
+          {Array(rowsPerPage).fill(undefined).map((a, i) => <Skeleton key={i}/>)}
           {(rowsPerPage > 0
             ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             : rows
