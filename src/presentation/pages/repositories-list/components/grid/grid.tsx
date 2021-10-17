@@ -13,6 +13,8 @@ import {
 import TablePaginationActions from '../pagination/pagination'
 import Skeleton from '../skeleton/skeleton'
 import Styles from './grid-styles.scss'
+import GridError from '../grid-error/grid-error'
+import GridData from '../grid-data/grid-data'
 
 type Props = {
   rows: any[]
@@ -53,42 +55,15 @@ const Grid: React.FC<Props> = ({ rows }) => {
             <TableCell align="right">Repo Link</TableCell>
           </TableRow>
         </TableHead>
-        <Skeleton />
         <TableBody>
-          {(rowsPerPage > 0
-            ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            : rows
-          ).map((row) => (
-            <TableRow key={row.name}>
-              <TableCell component="th" scope="row">
-                {row.name}
-              </TableCell>
-              <TableCell style={{ width: 240 }} align="right">
-                {row.description}
-              </TableCell>
-              <TableCell style={{ width: 160 }} align="right">
-                {row.created}
-              </TableCell>
-              <TableCell style={{ width: 160 }} align="right">
-                {row.updated}
-              </TableCell>
-              <TableCell style={{ width: 160 }} align="right">
-                {row.username} - {row.avatar}
-              </TableCell>
-              <TableCell style={{ width: 160 }} align="right">
-                {row.stars}
-              </TableCell>
-              <TableCell style={{ width: 160 }} align="right">
-                {row.repoUrl}
-              </TableCell>
-            </TableRow>
-          ))}
-
-          {emptyRows > 0 && (
-            <TableRow style={{ height: 53 * emptyRows }}>
-              <TableCell colSpan={6} />
-            </TableRow>
-          )}
+          <Skeleton />
+          <GridError />
+          <GridData
+            page={page}
+            rowsPerPage={rowsPerPage}
+            emptyRows={emptyRows}
+            rows={rows}
+            />
         </TableBody>
         <TableFooter>
           <TableRow>
