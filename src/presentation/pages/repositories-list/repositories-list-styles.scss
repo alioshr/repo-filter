@@ -1,0 +1,48 @@
+@import '../../styles/colors';
+
+.surveyWrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: $background;
+  padding-top: 4rem;
+  padding: 2rem 1rem 0 1rem;
+
+  .title {
+    color: $primaryDark;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
+  
+  .searchWrapper {
+    margin-bottom: 2rem;
+    form {
+      display: flex;
+
+      & .MuiInputBase-root.MuiInput-root.MuiInput-underline::before {
+        border-bottom: solid 1px green !important;
+      }
+    }
+
+    .input {
+      width: 15rem;
+      margin-right: 1rem;
+
+      &::before {
+        border-bottom: solid 1px $primary !important;
+      }
+  
+      &::after {
+        border-bottom: solid 2px $primaryDark !important;
+      }
+    }
+
+    .submitButton {
+      color: #fff;
+      background-color: $primary;
+      &:hover {
+        background-color: $primaryDark;
+      }
+    }
+  }
+}
