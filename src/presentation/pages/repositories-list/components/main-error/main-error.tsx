@@ -1,8 +1,8 @@
 import { TableCell, TableRow } from '@material-ui/core'
 import React from 'react'
-import Styles from './grid-error-styles.scss'
+import Styles from './main-error-styles.scss'
 
-const GridError: React.FC = () => (
+const MainError: React.FC = () => (
   <TableRow>
     <TableCell
       colSpan={7}
@@ -17,4 +17,4 @@ const GridError: React.FC = () => (
   </TableRow>
 )
 
-export default GridError
+export default MainError

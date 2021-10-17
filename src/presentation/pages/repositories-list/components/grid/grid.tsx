@@ -13,8 +13,8 @@ import {
 import TablePaginationActions from '../pagination/pagination'
 import Skeleton from '../skeleton/skeleton'
 import Styles from './grid-styles.scss'
-import GridError from '../grid-error/grid-error'
-import GridData from '../grid-data/grid-data'
+import MainError from '../main-error/main-error'
+import MainData from '../main-data/main-data'
 
 type Props = {
   rows: any[]
@@ -23,9 +23,6 @@ type Props = {
 const Grid: React.FC<Props> = ({ rows }) => {
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(5)
-
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0
 
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null,
@@ -57,11 +54,10 @@ const Grid: React.FC<Props> = ({ rows }) => {
         </TableHead>
         <TableBody>
           <Skeleton />
-          <GridError />
-          <GridData
+          <MainError />
+          <MainData
             page={page}
             rowsPerPage={rowsPerPage}
-            emptyRows={emptyRows}
             rows={rows}
             />
         </TableBody>
