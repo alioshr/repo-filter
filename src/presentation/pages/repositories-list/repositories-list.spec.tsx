@@ -25,12 +25,7 @@ type SutTypes = {
   getRepositoriesSpy: GetRepositoriesSpy
 }
 
-const makeSut = (getResponse: any = mockedRepositoriesPaginator()): SutTypes => {
-  const getRepositoriesSpy = new GetRepositoriesSpy()
-  getRepositoriesSpy.response = getResponse
-  if (getResponse === 'error') {
-    jest.spyOn(getRepositoriesSpy, 'get').mockRejectedValueOnce(new Error('get_error'))
-  }
+const makeSut = (getRepositoriesSpy = new GetRepositoriesSpy()): SutTypes => {
   const sut = render(
     <RepositoriesList getRepositories={getRepositoriesSpy}/>
   )
@@ -60,7 +55,9 @@ describe('RepositoriesList', () => {
   })
   test('Should load repositories on success', async () => {
     const response = mockedRepositoriesPaginator()
-    makeSut(response)
+    const getRepositoriesSpy = new GetRepositoriesSpy()
+    getRepositoriesSpy.response = response
+    makeSut(getRepositoriesSpy)
     const dataTable = screen.getByTestId('data-table')
     await waitFor(() => dataTable)
     expect(dataTable.querySelectorAll('tr.skeleton')).toHaveLength(0)
