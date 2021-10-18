@@ -17,11 +17,7 @@ import MainError from '../main-error/main-error'
 import MainData from '../main-data/main-data'
 import RepositoryContext, { RepositoriesStateTypes } from '@/presentation/contexts/repository-context'
 
-type Props = {
-  rows: any[]
-}
-
-const DataTable: React.FC<Props> = ({ rows }) => {
+const DataTable: React.FC = () => {
   const { state } = useContext<RepositoriesStateTypes>(RepositoryContext)
 
   const [page, setPage] = React.useState(0)
@@ -61,7 +57,7 @@ const DataTable: React.FC<Props> = ({ rows }) => {
           {state.data.length > 0 && <MainData
             page={page}
             rowsPerPage={rowsPerPage}
-            rows={rows}
+            rows={state.data}
             />}
         </TableBody>
         <TableFooter>
@@ -69,7 +65,7 @@ const DataTable: React.FC<Props> = ({ rows }) => {
             <TablePagination
               rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
               colSpan={4}
-              count={rows.length}
+              count={state.data.length}
               rowsPerPage={rowsPerPage}
               page={page}
               SelectProps={{
