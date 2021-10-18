@@ -1,3 +1,4 @@
+import { Repository } from '@/domain/models'
 import { createContext, Dispatch, SetStateAction } from 'react'
 
 export type StateTypes = {
@@ -5,7 +6,8 @@ export type StateTypes = {
   name?: string
   page: number
   rowsPerPage: number
-  data: any[]
+  totalCount: number | null
+  data: Repository[]
   mainError: string | null
 }
 

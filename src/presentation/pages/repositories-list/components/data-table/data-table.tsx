@@ -18,23 +18,26 @@ import MainData from '../main-data/main-data'
 import RepositoryContext, { RepositoriesStateTypes } from '@/presentation/contexts/repository-context'
 
 const DataTable: React.FC = () => {
-  const { state } = useContext<RepositoriesStateTypes>(RepositoryContext)
+  const { state, setState } = useContext<RepositoriesStateTypes>(RepositoryContext)
 
-  const [page, setPage] = React.useState(0)
-  const [rowsPerPage, setRowsPerPage] = React.useState(5)
+  // const [page, setPage] = React.useState(0)
+  // const [rowsPerPage, setRowsPerPage] = React.useState(5)
 
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null,
     newPage: number
   ): void => {
-    setPage(newPage)
+    setState((prevState) => ({ ...prevState, page: newPage }))
+    // setPage(newPage)
   }
 
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement>
   ): void => {
-    setRowsPerPage(parseInt(event.target.value, 10))
-    setPage(0)
+    setState((prevState) => ({ ...prevState, rowsPerPage: parseInt(event.target.value, 10) }))
+    setState((prevState) => ({ ...prevState, page: 0 }))
+    // setRowsPerPage(parseInt(event.target.value, 10))
+    // setPage(0)
   }
 
   return (
@@ -53,10 +56,11 @@ const DataTable: React.FC = () => {
         </TableHead>
         <TableBody>
           {state.isLoading && <Skeleton />}
-          {state.mainError && <MainError />}
-          {state.data.length > 0 && <MainData
-            page={page}
-            rowsPerPage={rowsPerPage}
+          {state.mainError
+            ? <MainError />
+            : <MainData
+            page={state.page}
+            rowsPerPage={state.rowsPerPage}
             rows={state.data}
             />}
         </TableBody>
@@ -65,9 +69,9 @@ const DataTable: React.FC = () => {
             <TablePagination
               rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
               colSpan={4}
-              count={state.data.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
+              count={state.totalCount as number}
+              rowsPerPage={state.rowsPerPage}
+              page={state.page}
               SelectProps={{
                 inputProps: {
                   'aria-label': 'rows per. page'

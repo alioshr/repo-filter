@@ -15,8 +15,9 @@ const RepositoriesList: React.FC<Props> = ({ getRepositories }) => {
   const [state, setState] = useState<StateTypes>({
     isLoading: true,
     name: '',
-    page: 1,
+    page: 0,
     rowsPerPage: 5,
+    totalCount: null,
     data: [],
     mainError: null
   })
@@ -30,11 +31,17 @@ const RepositoriesList: React.FC<Props> = ({ getRepositories }) => {
       .then((res) => {
         setState((prevState) => ({
           ...prevState,
-          data: res.items
+          data: res.items,
+          totalCount: res.total_count,
+          isLoading: false
         }))
       })
       .catch((err) =>
-        setState((prevState) => ({ ...prevState, mainError: err.message }))
+        setState((prevState) => ({
+          ...prevState,
+          mainError: err,
+          isLoading: false
+        }))
       )
   }, [])
 
