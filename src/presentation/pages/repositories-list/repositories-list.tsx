@@ -17,7 +17,7 @@ const RepositoriesList: React.FC<Props> = ({ getRepositories }) => {
     name: '',
     page: 0,
     rowsPerPage: 5,
-    totalCount: null,
+    totalCount: 0,
     data: [],
     mainError: null
   })
@@ -36,13 +36,14 @@ const RepositoriesList: React.FC<Props> = ({ getRepositories }) => {
           isLoading: false
         }))
       })
-      .catch((err) =>
+      .catch((err) => {
+        console.log('error', err)
         setState((prevState) => ({
           ...prevState,
-          mainError: err,
+          mainError: err.message,
           isLoading: false
         }))
-      )
+      })
   }, [])
 
   return (

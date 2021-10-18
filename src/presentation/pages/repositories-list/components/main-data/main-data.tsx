@@ -18,7 +18,7 @@ const MainData: React.FC<Props> = ({ rows, page, rowsPerPage }) => {
         ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
         : rows
       ).map((row, index) => (
-        <TableRow data-testid={`row-${index}`} key={row.name} className={Styles.dataRow}>
+        <TableRow data-testid={`row-${index}`} key={index} className={Styles.dataRow}>
           <TableCell component="th" scope="row">
             {row.name}
           </TableCell>
@@ -33,7 +33,7 @@ const MainData: React.FC<Props> = ({ rows, page, rowsPerPage }) => {
           </TableCell>
           <TableCell style={{ width: 160 }} align="right">
             <span>{row.owner.login}</span>
-            <img src={row.owner.avatar_url} alt="avatar"/>
+            <img className={Styles.avatar} src={row.owner.avatar_url} alt="avatar"/>
           </TableCell>
           <TableCell style={{ width: 160 }} align="right">
             {row.stargazers_count}
