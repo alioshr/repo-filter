@@ -1,5 +1,6 @@
 import { TableRow, TableCell } from '@material-ui/core'
 import React from 'react'
+import Styles from './main-data-styles.scss'
 
 type Props = {
   rows: any[]
@@ -17,7 +18,7 @@ const MainData: React.FC<Props> = ({ rows, page, rowsPerPage }) => {
         ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
         : rows
       ).map((row) => (
-        <TableRow key={row.name}>
+        <TableRow key={row.name} className={Styles.dataRow}>
           <TableCell component="th" scope="row">
             {row.name}
           </TableCell>

@@ -3,10 +3,10 @@ import Styles from './skeleton-styles.scss'
 
 const Skeleton: React.FC = () => (
   <React.Fragment>
-    {Array(7)
+    {Array(5)
       .fill(undefined)
       .map((a, i) => (
-        <tr key={i} className={Styles.skeleton}>
+        <tr data-testid="grid-skeleton-row" key={i} className={Styles.skeleton}>
           <td></td>
           <td></td>
           <td></td>

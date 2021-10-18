@@ -1,10 +1,21 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Styles from './repositories-list-styles.scss'
 import DataTable from './components/data-table/data-table'
 import { Input, Button } from '@material-ui/core'
+import RepositoryContext, { StateTypes } from '@/presentation/contexts/repository-context'
 
 const RepositoriesList: React.FC = () => {
+  const [state, setState] = useState<StateTypes>({
+    isLoading: true,
+    name: '',
+    page: 1,
+    rowsPerPage: 5,
+    data: [],
+    mainError: null
+  })
+
   return (
+    <RepositoryContext.Provider value={{ state, setState }}>
     <div className={Styles.surveyWrapper}>
       <h2 className={Styles.title}>Search for a repository: </h2>
       <div className={Styles.searchWrapper}>
@@ -21,6 +32,7 @@ const RepositoriesList: React.FC = () => {
       </div>
       <DataTable rows={rows} />
     </div>
+    </ RepositoryContext.Provider>
   )
 }
 

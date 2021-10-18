@@ -3,7 +3,7 @@ import React from 'react'
 import Styles from './main-error-styles.scss'
 
 const MainError: React.FC = () => (
-  <TableRow>
+  <TableRow data-testid="main-error">
     <TableCell
       colSpan={7}
       className={Styles.mainError}

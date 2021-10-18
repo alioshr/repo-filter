@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import {
   TableContainer,
   Paper,
@@ -15,12 +15,15 @@ import Skeleton from '../skeleton/skeleton'
 import Styles from './data-table-styles.scss'
 import MainError from '../main-error/main-error'
 import MainData from '../main-data/main-data'
+import RepositoryContext, { RepositoriesStateTypes } from '@/presentation/contexts/repository-context'
 
 type Props = {
   rows: any[]
 }
 
 const DataTable: React.FC<Props> = ({ rows }) => {
+  const { state } = useContext<RepositoriesStateTypes>(RepositoryContext)
+
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(5)
 
@@ -40,7 +43,7 @@ const DataTable: React.FC<Props> = ({ rows }) => {
 
   return (
     <TableContainer component={Paper} className={Styles.tableWrapper}>
-      <Table >
+      <Table data-testid="data-table">
         <TableHead>
           <TableRow>
             <TableCell>Name</TableCell>
@@ -53,13 +56,13 @@ const DataTable: React.FC<Props> = ({ rows }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          <Skeleton />
-          <MainError />
-          <MainData
+          {state.isLoading && <Skeleton />}
+          {state.mainError && <MainError />}
+          {state.data.length > 0 && <MainData
             page={page}
             rowsPerPage={rowsPerPage}
             rows={rows}
-            />
+            />}
         </TableBody>
         <TableFooter>
           <TableRow>
