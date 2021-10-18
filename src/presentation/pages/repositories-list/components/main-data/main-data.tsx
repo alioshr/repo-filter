@@ -14,10 +14,7 @@ const MainData: React.FC<Props> = ({ rows, page, rowsPerPage }) => {
   // page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0
   return (
     <React.Fragment>
-      {(rowsPerPage > 0
-        ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-        : rows
-      ).map((row, index) => (
+      {rows.map((row, index) => (
         <TableRow data-testid={`row-${index}`} key={index} className={Styles.dataRow}>
           <TableCell component="th" scope="row">
             {row.name}

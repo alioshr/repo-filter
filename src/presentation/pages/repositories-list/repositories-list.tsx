@@ -23,10 +23,14 @@ const RepositoriesList: React.FC<Props> = ({ getRepositories }) => {
   })
 
   useEffect(() => {
+    setState((prevState) => ({
+      ...prevState,
+      isLoading: true
+    }))
     getRepositories
       .get({
         per_page: state.rowsPerPage,
-        page: state.page
+        page: state.page + 1
       })
       .then((res) => {
         setState((prevState) => ({
@@ -37,15 +41,13 @@ const RepositoriesList: React.FC<Props> = ({ getRepositories }) => {
         }))
       })
       .catch((err) => {
-        console.log('error', err)
         setState((prevState) => ({
           ...prevState,
           mainError: err.message,
           isLoading: false
         }))
       })
-  }, [])
-
+  }, [state.page])
   return (
     <RepositoryContext.Provider value={{ state, setState }}>
       <div className={Styles.surveyWrapper}>
