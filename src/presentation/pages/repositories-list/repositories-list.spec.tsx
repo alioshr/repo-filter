@@ -4,6 +4,7 @@ import { RepositoriesList } from '..'
 import { GetRepositories, QueryParamsDTO } from '@/domain/usecases/get-repositories'
 import { Paginator, Repository } from '@/domain/models'
 import { mockedRepositoriesPaginator } from '@/domain/tests'
+import { UnexpectedError } from '@/domain/errors'
 class GetRepositoriesSpy implements GetRepositories {
   callCount = 0
   params: QueryParamsDTO | null = null
@@ -64,5 +65,14 @@ describe('RepositoriesList', () => {
     expect(screen.queryByTestId('main-error')).toBeNull()
     expect(screen.getByText(response.items[0].description)).toBeTruthy()
     expect(screen.getByTestId('row-0')).toBeTruthy()
+  })
+  test('Should render proper error if GetRepositories throws Unexpected Error', async () => {
+    const getRepositoriesSpy = new GetRepositoriesSpy()
+    const error = new UnexpectedError()
+    jest.spyOn(getRepositoriesSpy, 'get').mockRejectedValueOnce(error)
+    makeSut(getRepositoriesSpy)
+    const dataTable = screen.getByTestId('data-table')
+    await waitFor(() => dataTable)
+    expect(screen.getByTestId('main-error').textContent).toBe(error.message)
   })
 })
