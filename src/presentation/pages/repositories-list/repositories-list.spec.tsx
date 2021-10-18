@@ -1,5 +1,5 @@
 import React from 'react'
-import { RenderResult, render, screen, waitFor, cleanup } from '@testing-library/react'
+import { RenderResult, render, screen, waitFor, cleanup, fireEvent } from '@testing-library/react'
 import { RepositoriesList } from '..'
 import { GetRepositories, QueryParamsDTO } from '@/domain/usecases/get-repositories'
 import { Paginator, Repository } from '@/domain/models'
@@ -50,7 +50,7 @@ describe('RepositoriesList', () => {
     await waitFor(() => dataTable)
     expect(getRepositoriesSpy.callCount).toBe(1)
     expect(getRepositoriesSpy.params).toEqual({
-      page: 0,
+      page: 1,
       per_page: 5
     })
   })
@@ -83,5 +83,30 @@ describe('RepositoriesList', () => {
     const dataTable = screen.getByTestId('data-table')
     await waitFor(() => dataTable)
     expect(screen.getByTestId('main-error').textContent).toBe(error.message)
+  })
+  test('Should call GetRepositories with the proper page on pagination', async () => {
+    const response = mockedRepositoriesPaginator()
+    response.total_count = 100
+    const getRepositoriesSpy = new GetRepositoriesSpy()
+    getRepositoriesSpy.response = response
+    makeSut(getRepositoriesSpy)
+    const dataTable = screen.getByTestId('data-table')
+    await waitFor(() => dataTable)
+    const nextPageButton = screen.getByTestId('next-page')
+    const lastPageButton = screen.getByTestId('last-page')
+    const backPageButton = screen.getByTestId('back-page')
+    const firstPageButton = screen.getByTestId('first-page')
+    fireEvent.click(nextPageButton)
+    expect(getRepositoriesSpy.callCount).toBe(2)
+    expect(getRepositoriesSpy.params?.page).toBe(2)
+    fireEvent.click(lastPageButton)
+    expect(getRepositoriesSpy.callCount).toBe(3)
+    expect(getRepositoriesSpy.params?.page).toBe(20)
+    fireEvent.click(backPageButton)
+    expect(getRepositoriesSpy.callCount).toBe(4)
+    expect(getRepositoriesSpy.params?.page).toBe(19)
+    fireEvent.click(firstPageButton)
+    expect(getRepositoriesSpy.callCount).toBe(5)
+    expect(getRepositoriesSpy.params?.page).toBe(1)
   })
 })
