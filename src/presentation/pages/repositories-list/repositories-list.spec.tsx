@@ -123,7 +123,7 @@ describe('RepositoriesList', () => {
     expect(getRepositoriesSpy.params?.per_page).toBe(25)
     expect(getRepositoriesSpy.callCount).toBe(2)
   })
-  test('Should call GetRepositories with the proper repository name', async () => {
+  test('Should call GetRepositories with the proper params on submit', async () => {
     const response = mockedRepositoriesPaginator()
     response.total_count = 100
     const getRepositoriesSpy = new GetRepositoriesSpy()
@@ -136,7 +136,11 @@ describe('RepositoriesList', () => {
     const nameInput = inputWrapper.querySelector('input.MuiInput-input') as HTMLInputElement
     fireEvent.input(nameInput, { target: { value: inputValue } })
     fireEvent.click(screen.getByTestId('submit-button'))
-    expect(getRepositoriesSpy.params?.name).toBe(inputValue)
+    expect(getRepositoriesSpy.params).toEqual({
+      name: inputValue,
+      page: 1,
+      per_page: 5
+    })
     expect(getRepositoriesSpy.callCount).toBe(2)
   })
   test('Should disable submit button while getting', async () => {
