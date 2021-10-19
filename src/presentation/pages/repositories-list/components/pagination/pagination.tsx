@@ -1,4 +1,4 @@
-import { Box, IconButton, useTheme } from '@material-ui/core'
+import { Box, IconButton } from '@material-ui/core'
 import { KeyboardArrowRight, KeyboardArrowLeft } from '@material-ui/icons'
 import FirstPageIcon from '@material-ui/icons/FirstPage'
 import LastPageIcon from '@material-ui/icons/LastPage'
@@ -17,8 +17,6 @@ const TablePaginationActions: React.FC<Props> = ({
   rowsPerPage,
   onPageChange
 }) => {
-  const theme = useTheme<any>()
-
   const handleFirstPageButtonClick = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null
   ): void => {
@@ -51,7 +49,7 @@ const TablePaginationActions: React.FC<Props> = ({
         disabled={page === 0}
         aria-label="first page"
       >
-        {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
+        <FirstPageIcon />
       </IconButton>
       <IconButton
         data-testid="back-page"
@@ -59,13 +57,7 @@ const TablePaginationActions: React.FC<Props> = ({
         disabled={page === 0}
         aria-label="previous page"
       >
-        {theme.direction === 'rtl'
-          ? (
-          <KeyboardArrowRight />
-            )
-          : (
-          <KeyboardArrowLeft />
-            )}
+        <KeyboardArrowLeft />
       </IconButton>
       <IconButton
         data-testid="next-page"
@@ -73,13 +65,7 @@ const TablePaginationActions: React.FC<Props> = ({
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
         aria-label="next page"
       >
-        {theme.direction === 'rtl'
-          ? (
-          <KeyboardArrowLeft />
-            )
-          : (
-          <KeyboardArrowRight />
-            )}
+        <KeyboardArrowRight />
       </IconButton>
       <IconButton
         data-testid="last-page"
@@ -87,7 +73,7 @@ const TablePaginationActions: React.FC<Props> = ({
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
         aria-label="last page"
       >
-        {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
+        <LastPageIcon />
       </IconButton>
     </Box>
   )
