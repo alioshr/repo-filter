@@ -5,6 +5,7 @@ import { GetRepositories, QueryParamsDTO } from '@/domain/usecases/get-repositor
 import { Paginator, Repository } from '@/domain/models'
 import { mockedRepositoriesPaginator } from '@/domain/tests'
 import { UnavailableError, UnexpectedError } from '@/domain/errors'
+import faker from 'faker'
 class GetRepositoriesSpy implements GetRepositories {
   callCount = 0
   params: QueryParamsDTO | null = null
@@ -120,6 +121,20 @@ describe('RepositoriesList', () => {
     const perPageSelector = dataTable.querySelector('select.MuiTablePagination-select') as HTMLSelectElement
     fireEvent.change(perPageSelector, { target: { value: '25' } })
     expect(getRepositoriesSpy.params?.per_page).toBe(25)
+    expect(getRepositoriesSpy.callCount).toBe(2)
+  })
+  test('Should call GetRepositories with the proper repository name', () => {
+    const response = mockedRepositoriesPaginator()
+    response.total_count = 100
+    const getRepositoriesSpy = new GetRepositoriesSpy()
+    getRepositoriesSpy.response = response
+    makeSut(getRepositoriesSpy)
+    const inputValue = faker.random.word()
+    const inputWrapper = screen.getByTestId('name-input')
+    const nameInput = inputWrapper.querySelector('input.MuiInput-input') as HTMLInputElement
+    fireEvent.input(nameInput, { target: { value: inputValue } })
+    fireEvent.click(screen.getByTestId('submit-button'))
+    expect(getRepositoriesSpy.params?.name).toBe(inputValue)
     expect(getRepositoriesSpy.callCount).toBe(2)
   })
 })
