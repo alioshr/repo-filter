@@ -48,20 +48,40 @@ const RepositoriesList: React.FC<Props> = ({ getRepositories }) => {
         }))
       })
   }, [state.page, state.rowsPerPage])
+
+  const handleSearchQuery = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
+    event.preventDefault()
+    await getRepositories.get({
+      per_page: state.rowsPerPage,
+      page: state.page + 1,
+      name: state.name
+    })
+  }
   return (
     <RepositoryContext.Provider value={{ state, setState }}>
       <div className={Styles.surveyWrapper}>
         <h2 className={Styles.title}>Search for a repository: </h2>
         <div className={Styles.searchWrapper}>
-          <form action="">
+          <form action="" onSubmit={handleSearchQuery}>
             <Input
+              data-testid="name-input"
               title="Type the repository name here"
               placeholder="Repository name"
               className={Styles.input}
               inputProps={{ classes: { underline: Styles.input } }}
               classes={{ underline: Styles.input }}
+              onChange={(e) =>
+                setState((prevState) => ({
+                  ...prevState,
+                  name: e.target.value
+                }))}
             />
-            <Button className={Styles.submitButton}>Submit</Button>
+            <Button
+            data-testid="submit-button"
+            type="submit"
+            className={Styles.submitButton}>
+              Submit
+            </Button>
           </form>
         </div>
         <DataTable />
