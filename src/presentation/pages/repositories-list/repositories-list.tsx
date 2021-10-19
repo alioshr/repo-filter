@@ -55,12 +55,21 @@ const RepositoriesList: React.FC<Props> = ({ getRepositories }) => {
       ...prevState,
       isLoading: true
     }))
-    await getRepositories.get({
-      per_page: state.rowsPerPage,
-      page: state.page + 1,
-      name: state.name
-    })
+    try {
+      await getRepositories.get({
+        per_page: state.rowsPerPage,
+        page: state.page + 1,
+        name: state.name
+      })
+    } catch (error: any) {
+      setState((prevState) => ({
+        ...prevState,
+        mainError: error.message,
+        isLoading: false
+      }))
+    }
   }
+
   return (
     <RepositoryContext.Provider value={{ state, setState }}>
       <div className={Styles.surveyWrapper}>
