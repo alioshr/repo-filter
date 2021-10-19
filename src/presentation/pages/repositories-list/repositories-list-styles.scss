@@ -39,6 +39,11 @@
       &:hover {
         background-color: $primaryDark;
       }
+
+      &:disabled {
+        background-color: $disabledBackground;
+        cursor: not-allowed;
+      }
     }
   }
 }
