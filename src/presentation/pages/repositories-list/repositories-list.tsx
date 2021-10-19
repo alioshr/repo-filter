@@ -51,6 +51,10 @@ const RepositoriesList: React.FC<Props> = ({ getRepositories }) => {
 
   const handleSearchQuery = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
+    setState((prevState) => ({
+      ...prevState,
+      isLoading: true
+    }))
     await getRepositories.get({
       per_page: state.rowsPerPage,
       page: state.page + 1,
@@ -77,6 +81,7 @@ const RepositoriesList: React.FC<Props> = ({ getRepositories }) => {
                 }))}
             />
             <Button
+            disabled={state.isLoading}
             data-testid="submit-button"
             type="submit"
             className={Styles.submitButton}>
