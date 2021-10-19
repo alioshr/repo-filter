@@ -15,7 +15,11 @@ const MainData: React.FC<Props> = ({ rows, page, rowsPerPage }) => {
   return (
     <React.Fragment>
       {rows.map((row, index) => (
-        <TableRow data-testid={`row-${index}`} key={index} className={Styles.dataRow}>
+        <TableRow
+          data-testid={`row-${index}`}
+          key={index}
+          className={Styles.dataRow}
+        >
           <TableCell component="th" scope="row">
             {row.name}
           </TableCell>
@@ -23,14 +27,24 @@ const MainData: React.FC<Props> = ({ rows, page, rowsPerPage }) => {
             {row.description}
           </TableCell>
           <TableCell style={{ width: 160 }} align="right">
-            {new Date(row.created_at).getMonth() + 1}/{new Date(row.created_at).getDate()}/{new Date(row.created_at).getFullYear()}
+            {new Date(row.created_at).getMonth() + 1}/
+            {new Date(row.created_at).getDate()}/
+            {new Date(row.created_at).getFullYear()}
           </TableCell>
           <TableCell style={{ width: 160 }} align="right">
-          {new Date(row.updated_at).getMonth() + 1}/{new Date(row.updated_at).getDate()}/{new Date(row.updated_at).getFullYear()}
+            {new Date(row.updated_at).getMonth() + 1}/
+            {new Date(row.updated_at).getDate()}/
+            {new Date(row.updated_at).getFullYear()}
           </TableCell>
           <TableCell style={{ width: 160 }} align="right">
-            <span>{row.owner.login}</span>
-            <img className={Styles.avatar} src={row.owner.avatar_url} alt="avatar"/>
+            <div className={Styles.ownerWrapper}>
+              <img
+                className={Styles.avatar}
+                src={row.owner.avatar_url}
+                alt="avatar"
+              />
+              <span>{row.owner.login}</span>
+            </div>
           </TableCell>
           <TableCell style={{ width: 160 }} align="right">
             {row.stargazers_count}

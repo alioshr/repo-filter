@@ -1,3 +1,14 @@
+.ownerWrapper {
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: flex-end;
 .avatar {
   width: 50%;
+}
+
+img {
+  border-radius: 50%;
+}
+
 }
