@@ -177,4 +177,23 @@ describe('RepositoriesList', () => {
     await waitFor(() => dataTable)
     expect(screen.getByTestId('main-error').textContent).toBe(error.message)
   })
+  test('Should render the query results on submit', async () => {
+    const response = mockedRepositoriesPaginator()
+    response.total_count = 100
+    const getRepositoriesSpy = new GetRepositoriesSpy()
+    getRepositoriesSpy.response = response
+    makeSut(getRepositoriesSpy)
+    const dataTable = screen.getByTestId('data-table')
+    await waitFor(() => dataTable)
+    const secondResponse = mockedRepositoriesPaginator()
+    jest.spyOn(getRepositoriesSpy, 'get').mockResolvedValueOnce(secondResponse)
+    const inputValue = faker.random.word()
+    const inputWrapper = screen.getByTestId('name-input')
+    const nameInput = inputWrapper.querySelector('input.MuiInput-input') as HTMLInputElement
+    fireEvent.input(nameInput, { target: { value: inputValue } })
+    fireEvent.click(screen.getByTestId('submit-button'))
+    await waitFor(() => dataTable)
+    expect(screen.getByText(secondResponse.items[0].description)).toBeTruthy()
+    expect(screen.getByTestId('row-0')).toBeTruthy()
+  })
 })
