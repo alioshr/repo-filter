@@ -123,12 +123,14 @@ describe('RepositoriesList', () => {
     expect(getRepositoriesSpy.params?.per_page).toBe(25)
     expect(getRepositoriesSpy.callCount).toBe(2)
   })
-  test('Should call GetRepositories with the proper repository name', () => {
+  test('Should call GetRepositories with the proper repository name', async () => {
     const response = mockedRepositoriesPaginator()
     response.total_count = 100
     const getRepositoriesSpy = new GetRepositoriesSpy()
     getRepositoriesSpy.response = response
     makeSut(getRepositoriesSpy)
+    const dataTable = screen.getByTestId('data-table')
+    await waitFor(() => dataTable)
     const inputValue = faker.random.word()
     const inputWrapper = screen.getByTestId('name-input')
     const nameInput = inputWrapper.querySelector('input.MuiInput-input') as HTMLInputElement
@@ -136,5 +138,23 @@ describe('RepositoriesList', () => {
     fireEvent.click(screen.getByTestId('submit-button'))
     expect(getRepositoriesSpy.params?.name).toBe(inputValue)
     expect(getRepositoriesSpy.callCount).toBe(2)
+  })
+  test('Should disable submit button while getting', async () => {
+    const response = mockedRepositoriesPaginator()
+    response.total_count = 100
+    const getRepositoriesSpy = new GetRepositoriesSpy()
+    getRepositoriesSpy.response = response
+    makeSut(getRepositoriesSpy)
+    const submitButton = screen.getByTestId('submit-button')
+    expect((submitButton as HTMLButtonElement).disabled).toBeTruthy()
+    const dataTable = screen.getByTestId('data-table')
+    await waitFor(() => dataTable)
+    expect((submitButton as HTMLButtonElement).disabled).toBeFalsy()
+    const inputValue = faker.random.word()
+    const inputWrapper = screen.getByTestId('name-input')
+    const nameInput = inputWrapper.querySelector('input.MuiInput-input') as HTMLInputElement
+    fireEvent.input(nameInput, { target: { value: inputValue } })
+    fireEvent.click(submitButton)
+    expect((submitButton as HTMLButtonElement).disabled).toBeTruthy()
   })
 })
