@@ -109,4 +109,17 @@ describe('RepositoriesList', () => {
     expect(getRepositoriesSpy.callCount).toBe(5)
     expect(getRepositoriesSpy.params?.page).toBe(1)
   })
+  test('Should call GetRepositories with the proper rowsPerpage values when changing the option', async () => {
+    const response = mockedRepositoriesPaginator()
+    response.total_count = 100
+    const getRepositoriesSpy = new GetRepositoriesSpy()
+    getRepositoriesSpy.response = response
+    makeSut(getRepositoriesSpy)
+    const dataTable = screen.getByTestId('data-table')
+    await waitFor(() => dataTable)
+    const perPageSelector = dataTable.querySelector('select.MuiTablePagination-select') as HTMLSelectElement
+    fireEvent.change(perPageSelector, { target: { value: '25' } })
+    expect(getRepositoriesSpy.params?.per_page).toBe(25)
+    expect(getRepositoriesSpy.callCount).toBe(2)
+  })
 })
