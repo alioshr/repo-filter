@@ -56,11 +56,17 @@ const RepositoriesList: React.FC<Props> = ({ getRepositories }) => {
       isLoading: true
     }))
     try {
-      await getRepositories.get({
+      const repositories = await getRepositories.get({
         per_page: state.rowsPerPage,
         page: state.page + 1,
         name: state.name
       })
+      setState((prevState) => ({
+        ...prevState,
+        data: repositories.items,
+        totalCount: repositories.total_count,
+        isLoading: false
+      }))
     } catch (error: any) {
       setState((prevState) => ({
         ...prevState,
