@@ -161,7 +161,7 @@ describe('RepositoriesList', () => {
     fireEvent.click(submitButton)
     expect((submitButton as HTMLButtonElement).disabled).toBeTruthy()
   })
-  test('Should render proper error if GetRepositories throws UnexpectedError on submit', async () => {
+  test('Should render proper error message if GetRepositories throws on submit', async () => {
     const getRepositoriesSpy = new GetRepositoriesSpy()
     const error = new UnexpectedError()
     makeSut(getRepositoriesSpy)
