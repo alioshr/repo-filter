@@ -47,7 +47,7 @@ const RepositoriesList: React.FC<Props> = ({ getRepositories }) => {
           isLoading: false
         }))
       })
-  }, [state.page])
+  }, [state.page, state.rowsPerPage])
   return (
     <RepositoryContext.Provider value={{ state, setState }}>
       <div className={Styles.surveyWrapper}>
