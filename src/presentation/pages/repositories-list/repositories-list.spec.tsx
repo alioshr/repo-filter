@@ -79,6 +79,11 @@ describe('RepositoriesList', () => {
     fireEvent.submit(form)
     expect(getRepositoriesSpy.callCount).toBe(0)
   })
+  test('Should have an error title if name validation fails', async () => {
+    makeSut(undefined, ERROR_MESSAGE)
+    const inputWrapper = screen.getByTestId('name-input')
+    expect(inputWrapper.title).toBe(ERROR_MESSAGE)
+  })
   test('Should disable submit button while getting', async () => {
     const response = mockedRepositoriesPaginator()
     response.total_count = 100
