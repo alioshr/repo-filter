@@ -198,6 +198,24 @@ describe('RepositoriesList', () => {
     await waitFor(() => dataTable)
     expect(screen.getByTestId('main-error').textContent).toBe(error.message)
   })
+  test('Should present error if rows per page selection fails', async () => {
+    const response = mockedRepositoriesPaginator()
+    response.total_count = 100
+    const getRepositoriesSpy = new GetRepositoriesSpy()
+    getRepositoriesSpy.response = response
+    makeSut(getRepositoriesSpy)
+    makeValidSubmit(faker.random.word())
+    const dataTable = screen.getByTestId('data-table')
+    await waitFor(() => dataTable)
+    const error = new UnavailableError()
+    jest.spyOn(getRepositoriesSpy, 'get').mockRejectedValueOnce(error)
+    const perPageSelector = dataTable.querySelector(
+      'select.MuiTablePagination-select'
+    ) as HTMLSelectElement
+    fireEvent.change(perPageSelector, { target: { value: '25' } })
+    await waitFor(() => dataTable)
+    expect(screen.getByTestId('main-error').textContent).toBe(error.message)
+  })
   test('Should call GetRepositories with the proper rowsPerpage values when changing the option', async () => {
     const response = mockedRepositoriesPaginator()
     response.total_count = 100
