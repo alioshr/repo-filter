@@ -60,7 +60,7 @@ const DataTable: React.FC = () => {
         <TableFooter>
           <TableRow>
             <TablePagination
-              rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+              rowsPerPageOptions={[5, 10, 25]}
               colSpan={4}
               count={state.totalCount as number}
               rowsPerPage={state.rowsPerPage}
