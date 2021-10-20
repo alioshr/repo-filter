@@ -182,6 +182,22 @@ describe('RepositoriesList', () => {
     expect(getRepositoriesSpy.callCount).toBe(5)
     expect(getRepositoriesSpy.params?.page).toBe(1)
   })
+  test('Should present error if pagination fails', async () => {
+    const response = mockedRepositoriesPaginator()
+    response.total_count = 100
+    const getRepositoriesSpy = new GetRepositoriesSpy()
+    getRepositoriesSpy.response = response
+    makeSut(getRepositoriesSpy)
+    makeValidSubmit(faker.random.word())
+    const dataTable = screen.getByTestId('data-table')
+    await waitFor(() => dataTable)
+    const error = new UnavailableError()
+    jest.spyOn(getRepositoriesSpy, 'get').mockRejectedValueOnce(error)
+    const nextPageButton = screen.getByTestId('next-page')
+    fireEvent.click(nextPageButton)
+    await waitFor(() => dataTable)
+    expect(screen.getByTestId('main-error').textContent).toBe(error.message)
+  })
   test('Should call GetRepositories with the proper rowsPerpage values when changing the option', async () => {
     const response = mockedRepositoriesPaginator()
     response.total_count = 100
