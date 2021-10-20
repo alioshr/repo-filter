@@ -104,7 +104,7 @@ const RepositoriesList: React.FC<Props> = ({ getRepositories, validator }) => {
           <form action="" onSubmit={handleSearchQuery} data-testid="form">
             <Input
               data-testid="name-input"
-              title="Type the repository name here"
+              title={state.nameError ?? ''}
               placeholder="Repository name"
               className={Styles.input}
               inputProps={{ classes: { underline: Styles.input } }}
