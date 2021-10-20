@@ -6,54 +6,74 @@ import RepositoryContext, {
   StateTypes
 } from '@/presentation/contexts/repository-context'
 import { GetRepositories } from '@/domain/usecases/get-repositories'
+import { Validator } from '@/presentation/protocols'
 
 type Props = {
   getRepositories: GetRepositories
+  validator: Validator
 }
 
-const RepositoriesList: React.FC<Props> = ({ getRepositories }) => {
+const RepositoriesList: React.FC<Props> = ({ getRepositories, validator }) => {
+  const [skipCount, setSkipCount] = useState(true)
   const [state, setState] = useState<StateTypes>({
-    isLoading: true,
+    isLoading: false,
     name: '',
+    nameError: '',
     page: 0,
     rowsPerPage: 5,
     totalCount: 0,
     data: [],
-    mainError: null
+    mainError: 'try me out'
   })
 
   useEffect(() => {
     setState((prevState) => ({
       ...prevState,
-      isLoading: true
+      nameError: validator.validate('name', { name: state.name })
     }))
-    getRepositories
-      .get({
-        per_page: state.rowsPerPage,
-        page: state.page + 1
-      })
-      .then((res) => {
-        setState((prevState) => ({
-          ...prevState,
-          data: res.items,
-          totalCount: res.total_count,
-          isLoading: false
-        }))
-      })
-      .catch((err) => {
-        setState((prevState) => ({
-          ...prevState,
-          mainError: err.message,
-          isLoading: false
-        }))
-      })
+  }, [state.name])
+
+  useEffect(() => {
+    if (skipCount) setSkipCount(false)
+    if (!skipCount) {
+      setState((prevState) => ({
+        ...prevState,
+        mainError: null,
+        isLoading: true
+      }))
+      getRepositories
+        .get({
+          per_page: state.rowsPerPage,
+          page: state.page + 1,
+          name: state.name
+        })
+        .then((res) => {
+          setState((prevState) => ({
+            ...prevState,
+            data: res.items,
+            totalCount: res.total_count,
+            isLoading: false
+          }))
+        })
+        .catch((err) => {
+          setState((prevState) => ({
+            ...prevState,
+            mainError: err.message,
+            isLoading: false
+          }))
+        })
+    }
   }, [state.page, state.rowsPerPage])
 
   const handleSearchQuery = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
+    if (state.nameError) {
+      return
+    }
     setState((prevState) => ({
       ...prevState,
-      isLoading: true
+      isLoading: true,
+      mainError: null
     }))
     try {
       const repositories = await getRepositories.get({
@@ -81,7 +101,7 @@ const RepositoriesList: React.FC<Props> = ({ getRepositories }) => {
       <div className={Styles.surveyWrapper}>
         <h2 className={Styles.title}>Search for a repository: </h2>
         <div className={Styles.searchWrapper}>
-          <form action="" onSubmit={handleSearchQuery}>
+          <form action="" onSubmit={handleSearchQuery} data-testid="form">
             <Input
               data-testid="name-input"
               title="Type the repository name here"
@@ -96,7 +116,7 @@ const RepositoriesList: React.FC<Props> = ({ getRepositories }) => {
                 }))}
             />
             <Button
-            disabled={state.isLoading}
+            disabled={state.isLoading || !!state.nameError}
             data-testid="submit-button"
             type="submit"
             className={Styles.submitButton}>
