@@ -1,13 +1,16 @@
 import React from 'react'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
-import { RepositoriesList } from '../pages'
 import '@/presentation/styles/_global.scss'
 
-const Router: React.FC = () => {
+type Props = {
+  makeRepositoriesList: React.FC
+}
+
+const Router: React.FC<Props> = ({ makeRepositoriesList }) => {
   return (
     <BrowserRouter>
       <Switch>
-        <Route path="/" exact component={RepositoriesList} />
+        <Route path="/" exact component={makeRepositoriesList} />
       </Switch>
     </BrowserRouter>
   )
