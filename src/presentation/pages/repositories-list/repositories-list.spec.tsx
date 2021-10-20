@@ -119,9 +119,13 @@ describe('RepositoriesList', () => {
     await waitFor(() => dataTable)
     jest.spyOn(getRepositoriesSpy, 'get').mockResolvedValueOnce(emptyData)
     makeValidSubmit(faker.random.word())
-    jest.spyOn(validatorSpy, 'validate').mockImplementationOnce(() => new NoContentError().message)
+    jest
+      .spyOn(validatorSpy, 'validate')
+      .mockImplementationOnce(() => new NoContentError().message)
     await waitFor(() => dataTable)
-    expect(screen.getByTestId('main-error').textContent).toBe(new NoContentError().message)
+    expect(screen.getByTestId('main-error').textContent).toBe(
+      new NoContentError().message
+    )
   })
   test('Should render the query results on submit', async () => {
     const response = mockedRepositoriesPaginator()
@@ -204,6 +208,29 @@ describe('RepositoriesList', () => {
     fireEvent.click(firstPageButton)
     expect(getRepositoriesSpy.callCount).toBe(5)
     expect(getRepositoriesSpy.params?.page).toBe(1)
+  })
+  test('Should persist pagination with input if user wipes input and does not re-submit', async () => {
+    const response = mockedRepositoriesPaginator()
+    response.total_count = 100
+    const getRepositoriesSpy = new GetRepositoriesSpy()
+    getRepositoriesSpy.response = response
+    makeSut(getRepositoriesSpy)
+    const firstInputValue = faker.random.word()
+    makeValidSubmit(firstInputValue)
+    const dataTable = screen.getByTestId('data-table')
+    await waitFor(() => dataTable)
+    const inputWrapper = screen.getByTestId('name-input')
+    const nameInput = inputWrapper.querySelector(
+      'input.MuiInput-input'
+    ) as HTMLInputElement
+    fireEvent.input(nameInput, { target: { value: '' } })
+    const nextPageButton = screen.getByTestId('next-page')
+    fireEvent.click(nextPageButton)
+    expect(getRepositoriesSpy.params).toEqual({
+      name: firstInputValue,
+      page: 2,
+      per_page: 5
+    })
   })
   test('Should present error if pagination fails', async () => {
     const response = mockedRepositoriesPaginator()
