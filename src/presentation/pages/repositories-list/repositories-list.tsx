@@ -85,7 +85,8 @@ const RepositoriesList: React.FC<Props> = ({ getRepositories, validator }) => {
         ...prevState,
         data: repositories.items,
         totalCount: repositories.total_count,
-        isLoading: false
+        isLoading: false,
+        mainError: validator.validate('items', { items: repositories.items })
       }))
     } catch (error: any) {
       setState((prevState) => ({
