@@ -10,6 +10,7 @@ This is really simple git repositories searcher
 * [Tests Features](#tests-features)
 * [Libs & Tools](#libs-and-tools)
 * [Principles](#principles)
+* [Requirements](#requirements)
 
 # Init instructions
 
@@ -17,7 +18,9 @@ This is really simple git repositories searcher
 * run `npm i`
 * start the local server: `npm run start`
 * test coverage: `npm run test:ci`
+* test integration: `npm run test:integration`
 * unit testing: `npm run test:unit`
+* complete testing: `npm run test`
 
 > ## Design Patterns
 
@@ -74,3 +77,12 @@ This is really simple git repositories searcher
 * Keep It Simple, Silly (KISS)
 * Composition Over Inheritance
 * Small Commits
+
+# Requirements
+
+## Use Cases
+
+* [Get Repositories](./requirements/usecases/get-repositories.md)
+## Pages
+
+* [Repositories list](./requirements/pages/repositories-list.md)
