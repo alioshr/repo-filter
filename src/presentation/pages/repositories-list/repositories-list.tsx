@@ -18,6 +18,7 @@ const RepositoriesList: React.FC<Props> = ({ getRepositories, validator }) => {
   const [state, setState] = useState<StateTypes>({
     isLoading: false,
     name: '',
+    typedName: '',
     nameError: '',
     page: 0,
     rowsPerPage: 5,
@@ -29,9 +30,9 @@ const RepositoriesList: React.FC<Props> = ({ getRepositories, validator }) => {
   useEffect(() => {
     setState((prevState) => ({
       ...prevState,
-      nameError: validator.validate('name', { name: state.name })
+      nameError: validator.validate('name', { name: state.typedName })
     }))
-  }, [state.name])
+  }, [state.typedName])
 
   useEffect(() => {
     if (skipCount) setSkipCount(false)
@@ -79,13 +80,14 @@ const RepositoriesList: React.FC<Props> = ({ getRepositories, validator }) => {
       const repositories = await getRepositories.get({
         per_page: state.rowsPerPage,
         page: state.page + 1,
-        name: state.name
+        name: state.typedName
       })
       setState((prevState) => ({
         ...prevState,
         data: repositories.items,
         totalCount: repositories.total_count,
         isLoading: false,
+        name: state.typedName,
         mainError: validator.validate('items', { items: repositories.items })
       }))
     } catch (error: any) {
@@ -113,7 +115,7 @@ const RepositoriesList: React.FC<Props> = ({ getRepositories, validator }) => {
               onChange={(e) =>
                 setState((prevState) => ({
                   ...prevState,
-                  name: e.target.value
+                  typedName: e.target.value
                 }))}
             />
             <Button

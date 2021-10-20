@@ -4,6 +4,7 @@ import { createContext, Dispatch, SetStateAction } from 'react'
 export type StateTypes = {
   isLoading: boolean
   name: string
+  typedName: string
   page: number
   rowsPerPage: number
   totalCount: number | null
