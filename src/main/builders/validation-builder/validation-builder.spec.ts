@@ -1,5 +1,5 @@
 import { RequiredFieldValidator } from '@/validation/validators'
-import { NoContentValidator } from '../null-or-empty/no-content'
+import { NoContentValidator } from '../../../validation/validators/no-content/no-content'
 import { ValidationBuilder as sut } from './validation-builder'
 import faker from 'faker'
 

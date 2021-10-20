@@ -1,6 +1,6 @@
 import { FieldValidation } from '@/validation/protocols'
 import { RequiredFieldValidator } from '@/validation/validators'
-import { NoContentValidator } from '../null-or-empty/no-content'
+import { NoContentValidator } from '../../../validation/validators/no-content/no-content'
 
 export class ValidationBuilder {
   private constructor (
