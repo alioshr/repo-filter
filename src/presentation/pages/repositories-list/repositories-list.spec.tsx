@@ -13,6 +13,8 @@ import { UnavailableError, UnexpectedError } from '@/domain/errors'
 import faker from 'faker'
 import { ValidationSpy } from '@/presentation/test/validator-spy'
 import { GetRepositoriesSpy } from '@/presentation/test'
+import { Paginator } from '@/domain/models'
+import { NoContentError } from '@/validation/errors'
 
 const ERROR_MESSAGE = faker.random.word()
 
@@ -104,6 +106,22 @@ describe('RepositoriesList', () => {
     makeValidSubmit(faker.random.word())
     await waitFor(() => dataTable)
     expect(screen.getByTestId('main-error').textContent).toBe(error.message)
+  })
+  test('Should present a no content error if GetRepositories return no data', async () => {
+    const getRepositoriesSpy = new GetRepositoriesSpy()
+    const emptyData: Paginator<[]> = {
+      incomplete_results: false,
+      total_count: 0,
+      items: []
+    }
+    const { validatorSpy } = makeSut(getRepositoriesSpy)
+    const dataTable = screen.getByTestId('data-table')
+    await waitFor(() => dataTable)
+    jest.spyOn(getRepositoriesSpy, 'get').mockResolvedValueOnce(emptyData)
+    makeValidSubmit(faker.random.word())
+    jest.spyOn(validatorSpy, 'validate').mockImplementationOnce(() => new NoContentError().message)
+    await waitFor(() => dataTable)
+    expect(screen.getByTestId('main-error').textContent).toBe(new NoContentError().message)
   })
   test('Should render the query results on submit', async () => {
     const response = mockedRepositoriesPaginator()
