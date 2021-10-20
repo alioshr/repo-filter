@@ -3,6 +3,7 @@ import { ValidatorComposite, ValidationBuilder } from '@/validation/validators'
 
 export const makeRepositoriesListValidations = (): Validator => {
   return ValidatorComposite.build([
-    ...ValidationBuilder.fieldName('name').required().build()
+    ...ValidationBuilder.fieldName('name').required().build(),
+    ...ValidationBuilder.fieldName('items').noContent().build()
   ])
 }
