@@ -20,15 +20,11 @@ import RepositoryContext, { RepositoriesStateTypes } from '@/presentation/contex
 const DataTable: React.FC = () => {
   const { state, setState } = useContext<RepositoriesStateTypes>(RepositoryContext)
 
-  // const [page, setPage] = React.useState(0)
-  // const [rowsPerPage, setRowsPerPage] = React.useState(5)
-
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null,
     newPage: number
   ): void => {
     setState((prevState) => ({ ...prevState, page: newPage }))
-    // setPage(newPage)
   }
 
   const handleChangeRowsPerPage = (
@@ -36,8 +32,6 @@ const DataTable: React.FC = () => {
   ): void => {
     setState((prevState) => ({ ...prevState, rowsPerPage: parseInt(event.target.value, 10) }))
     setState((prevState) => ({ ...prevState, page: 0 }))
-    // setRowsPerPage(parseInt(event.target.value, 10))
-    // setPage(0)
   }
 
   return (
