@@ -1,4 +1,5 @@
 import { RequiredFieldValidator } from '@/validation/validators'
+import { NoContentValidator } from '../null-or-empty/no-content'
 import { ValidationBuilder as sut } from './validation-builder'
 import faker from 'faker'
 
@@ -12,8 +13,8 @@ describe('ValidationBuilder', () => {
     expect(validations).toEqual([new RequiredFieldValidator(field)])
   })
   test('Should have the correct number of Validation dependencies', () => {
-    const validations = sut.fieldName(field).required().build()
-    expect(validations).toEqual([new RequiredFieldValidator(field)])
-    expect(validations.length).toBe(1)
+    const validations = sut.fieldName(field).required().noContent().build()
+    expect(validations).toEqual([new RequiredFieldValidator(field), new NoContentValidator(field)])
+    expect(validations.length).toBe(2)
   })
 })
