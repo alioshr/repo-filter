@@ -5,13 +5,9 @@ import Styles from './main-data-styles.scss'
 
 type Props = {
   rows: Repository[]
-  page: number
-  rowsPerPage: number
 }
 
-const MainData: React.FC<Props> = ({ rows, page, rowsPerPage }) => {
-  // const emptyRows =
-  // page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0
+const MainData: React.FC<Props> = ({ rows }) => {
   return (
     <React.Fragment>
       {rows.map((row, index) => (
@@ -20,11 +16,11 @@ const MainData: React.FC<Props> = ({ rows, page, rowsPerPage }) => {
           key={index}
           className={Styles.dataRow}
         >
-          <TableCell component="th" scope="row">
-            {row.name}
+          <TableCell component="th" scope="row" data-testid="name-cell">
+            {row.name?.split('', 200)}
           </TableCell>
-          <TableCell style={{ width: 240 }} align="right">
-            {row.description}
+          <TableCell style={{ width: 240 }} align="right" data-testid="description-cell">
+            {row.description?.split('', 200)}
           </TableCell>
           <TableCell style={{ width: 160 }} align="right">
             {new Date(row.created_at).getMonth() + 1}/
@@ -57,12 +53,6 @@ const MainData: React.FC<Props> = ({ rows, page, rowsPerPage }) => {
           </TableCell>
         </TableRow>
       ))}
-
-      {/* {emptyRows > 0 && (
-        <TableRow style={{ height: 53 * emptyRows }}>
-          <TableCell colSpan={6} />
-        </TableRow>
-      )} */}
     </React.Fragment>
   )
 }

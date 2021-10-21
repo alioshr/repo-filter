@@ -52,8 +52,6 @@ const DataTable: React.FC = () => {
           {state.isLoading && <Skeleton />}
           {state.mainError && <MainError />}
           {!state.mainError && !state.isLoading && <MainData
-            page={state.page}
-            rowsPerPage={state.rowsPerPage}
             rows={state.data}
             />}
         </TableBody>
