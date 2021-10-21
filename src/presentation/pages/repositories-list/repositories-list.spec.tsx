@@ -56,7 +56,7 @@ describe('RepositoriesList', () => {
   test('Should start with the correct state and data', () => {
     makeSut(undefined, ERROR_MESSAGE)
     Helper.testButtonDisabled('submit-button', true)
-    expect(screen.getByTestId('main-error').textContent).toBe('try me out')
+    Helper.testFieldTextContent('main-error', 'try me out')
     testGridElementsLength(0, 0)
   })
   test('Should call GetRepositories with the proper params on submit', async () => {
@@ -103,7 +103,7 @@ describe('RepositoriesList', () => {
     jest.spyOn(getRepositoriesSpy, 'get').mockRejectedValueOnce(error)
     makeValidSubmit(faker.random.word())
     await Helper.waitForElement('data-table')
-    expect(screen.getByTestId('main-error').textContent).toBe(error.message)
+    Helper.testFieldTextContent('main-error', error.message)
   })
   test('Should present a no content error if GetRepositories return no data', async () => {
     const getRepositoriesSpy = new GetRepositoriesSpy()
@@ -120,9 +120,7 @@ describe('RepositoriesList', () => {
       .spyOn(validatorSpy, 'validate')
       .mockImplementationOnce(() => new NoContentError().message)
     await Helper.waitForElement('data-table')
-    expect(screen.getByTestId('main-error').textContent).toBe(
-      new NoContentError().message
-    )
+    Helper.testFieldTextContent('main-error', new NoContentError().message)
   })
   test('Should render the query results on submit', async () => {
     const response = mockedRepositoriesPaginator()
