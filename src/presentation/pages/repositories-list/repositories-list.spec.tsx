@@ -13,7 +13,7 @@ import { UnavailableError, UnexpectedError } from '@/domain/errors'
 import faker from 'faker'
 import { ValidationSpy } from '@/presentation/test/validator-spy'
 import { GetRepositoriesSpy } from '@/presentation/test'
-import { Paginator } from '@/domain/models'
+import { Paginator, Repository } from '@/domain/models'
 import { NoContentError } from '@/validation/errors'
 import * as Helper from '@/presentation/test/form-helper'
 
@@ -28,6 +28,15 @@ const testGridElementsLength = (skeletonLength: number, mainDataLength: number):
   const dataTable = screen.getByTestId('data-table')
   expect(dataTable.querySelectorAll('tr.skeleton')).toHaveLength(skeletonLength)
   expect(dataTable.querySelectorAll('tr.dataRow')).toHaveLength(mainDataLength)
+}
+
+const renderScreen = (
+  getRepositoriesSpy: GetRepositoriesSpy = new GetRepositoriesSpy(),
+  response: Paginator<Repository[] | []> = mockedRepositoriesPaginator()
+): void => {
+  response.total_count = 100
+  getRepositoriesSpy.response = response
+  makeSut(getRepositoriesSpy)
 }
 
 type SutTypes = {
@@ -60,11 +69,8 @@ describe('RepositoriesList', () => {
     testGridElementsLength(0, 0)
   })
   test('Should call GetRepositories with the proper params on submit', async () => {
-    const response = mockedRepositoriesPaginator()
-    response.total_count = 100
     const getRepositoriesSpy = new GetRepositoriesSpy()
-    getRepositoriesSpy.response = response
-    makeSut(getRepositoriesSpy)
+    renderScreen(getRepositoriesSpy)
     const inputValue = faker.random.word()
     makeValidSubmit(inputValue)
     expect(getRepositoriesSpy.params).toEqual({
@@ -87,11 +93,7 @@ describe('RepositoriesList', () => {
     expect(inputWrapper.title).toBe(ERROR_MESSAGE)
   })
   test('Should disable submit button while getting', async () => {
-    const response = mockedRepositoriesPaginator()
-    response.total_count = 100
-    const getRepositoriesSpy = new GetRepositoriesSpy()
-    getRepositoriesSpy.response = response
-    makeSut(getRepositoriesSpy)
+    renderScreen()
     makeValidSubmit(faker.random.word())
     Helper.testButtonDisabled('submit-button', true)
   })
@@ -123,11 +125,8 @@ describe('RepositoriesList', () => {
     Helper.testFieldTextContent('main-error', new NoContentError().message)
   })
   test('Should render the query results on submit', async () => {
-    const response = mockedRepositoriesPaginator()
-    response.total_count = 100
     const getRepositoriesSpy = new GetRepositoriesSpy()
-    getRepositoriesSpy.response = response
-    makeSut(getRepositoriesSpy)
+    renderScreen(getRepositoriesSpy)
     await Helper.waitForElement('data-table')
     const secondResponse = mockedRepositoriesPaginator()
     jest.spyOn(getRepositoriesSpy, 'get').mockResolvedValueOnce(secondResponse)
@@ -144,9 +143,7 @@ describe('RepositoriesList', () => {
   })
   test('Should load repositories on success', async () => {
     const response = mockedRepositoriesPaginator()
-    const getRepositoriesSpy = new GetRepositoriesSpy()
-    getRepositoriesSpy.response = response
-    makeSut(getRepositoriesSpy)
+    renderScreen(undefined, response)
     makeValidSubmit(faker.random.word())
     await Helper.waitForElement('data-table')
     testGridElementsLength(0, 1)
@@ -173,11 +170,8 @@ describe('RepositoriesList', () => {
     Helper.testFieldTextContent('main-error', error.message)
   })
   test('Should call GetRepositories with the proper page on pagination', async () => {
-    const response = mockedRepositoriesPaginator()
-    response.total_count = 100
     const getRepositoriesSpy = new GetRepositoriesSpy()
-    getRepositoriesSpy.response = response
-    makeSut(getRepositoriesSpy)
+    renderScreen(getRepositoriesSpy)
     makeValidSubmit(faker.random.word())
     await Helper.waitForElement('data-table')
     Helper.clickElement('next-page')
@@ -194,11 +188,8 @@ describe('RepositoriesList', () => {
     expect(getRepositoriesSpy.params?.page).toBe(1)
   })
   test('Should persist pagination with input if user wipes input and does not re-submit', async () => {
-    const response = mockedRepositoriesPaginator()
-    response.total_count = 100
     const getRepositoriesSpy = new GetRepositoriesSpy()
-    getRepositoriesSpy.response = response
-    makeSut(getRepositoriesSpy)
+    renderScreen(getRepositoriesSpy)
     const firstInputValue = faker.random.word()
     makeValidSubmit(firstInputValue)
     await Helper.waitForElement('data-table')
@@ -211,11 +202,8 @@ describe('RepositoriesList', () => {
     })
   })
   test('Should present error if pagination fails', async () => {
-    const response = mockedRepositoriesPaginator()
-    response.total_count = 100
     const getRepositoriesSpy = new GetRepositoriesSpy()
-    getRepositoriesSpy.response = response
-    makeSut(getRepositoriesSpy)
+    renderScreen(getRepositoriesSpy)
     makeValidSubmit(faker.random.word())
     await Helper.waitForElement('data-table')
     const error = new UnavailableError()
@@ -225,14 +213,12 @@ describe('RepositoriesList', () => {
     Helper.testFieldTextContent('main-error', error.message)
   })
   test('Should present error if rows per page selection fails', async () => {
-    const response = mockedRepositoriesPaginator()
-    response.total_count = 100
     const getRepositoriesSpy = new GetRepositoriesSpy()
-    getRepositoriesSpy.response = response
-    makeSut(getRepositoriesSpy)
+    renderScreen(getRepositoriesSpy)
     makeValidSubmit(faker.random.word())
     const dataTable = screen.getByTestId('data-table')
     await waitFor(() => dataTable)
+    await Helper.waitForElement('data-table')
     const error = new UnavailableError()
     jest.spyOn(getRepositoriesSpy, 'get').mockRejectedValueOnce(error)
     const perPageSelector = dataTable.querySelector(
@@ -243,11 +229,8 @@ describe('RepositoriesList', () => {
     Helper.testFieldTextContent('main-error', error.message)
   })
   test('Should call GetRepositories with the proper rowsPerpage values when changing the option', async () => {
-    const response = mockedRepositoriesPaginator()
-    response.total_count = 100
     const getRepositoriesSpy = new GetRepositoriesSpy()
-    getRepositoriesSpy.response = response
-    makeSut(getRepositoriesSpy)
+    renderScreen(getRepositoriesSpy)
     makeValidSubmit(faker.random.word())
     const dataTable = screen.getByTestId('data-table')
     await waitFor(() => dataTable)
