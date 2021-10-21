@@ -1,3 +1,5 @@
+[![Coverage Status](https://coveralls.io/repos/github/alioshr/awesome-react/badge.svg)](https://coveralls.io/github/alioshr/repo-filter)
+[![Build Status](https://app.travis-ci.com/alioshr/awesome-react.svg?branch=master)](https://app.travis-ci.com/alioshr/repo-filter)
 # Repository searcher
  
 This is really simple git repositories searcher
