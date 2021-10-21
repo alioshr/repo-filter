@@ -1,5 +1,7 @@
-[![Coverage Status](https://coveralls.io/repos/github/alioshr/awesome-react/badge.svg)](https://coveralls.io/github/alioshr/repo-filter)
-[![Build Status](https://app.travis-ci.com/alioshr/awesome-react.svg?branch=master)](https://app.travis-ci.com/alioshr/repo-filter)
+[![Coverage Status](https://coveralls.io/repos/github/alioshr/repo-filter/badge.svg)](https://coveralls.io/github/alioshr/repo-filter)
+[![Build Status](https://app.travis-ci.com/alioshr/repo-filter.svg?branch=master)](https://app.travis-ci.com/alioshr/repo-filter)
+[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com)
+[![Known Vulnerabilities](https://snyk.io/test/github/alioshr/repo-filter/badge.svg)](https://snyk.io/test/github/alioshr/repo-filter)
 # Repository searcher
  
 This is really simple git repositories searcher
