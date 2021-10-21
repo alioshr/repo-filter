@@ -18,13 +18,17 @@ const makeSut = (
 describe('MainData', () => {
   test('Should limit the description and name to 200 chars', () => {
     const rows = mockedRepositoriesPaginator()
-    rows.items[0].description = faker.datatype.string(1000)
-    rows.items[0].name = faker.datatype.string(1000)
+    const name = faker.datatype.string(1000)
+    const description = faker.datatype.string(1000)
+    rows.items[0].description = description
+    rows.items[0].name = name
     const sut = makeSut(rows.items)
     const nameCell = sut.getByTestId('name-cell')
     const descriptionCell = sut.getByTestId('description-cell')
-    expect(nameCell.textContent).toHaveLength(200)
-    expect(descriptionCell.textContent).toHaveLength(200)
+    expect(nameCell.textContent).toHaveLength(203)
+    expect(nameCell.textContent).toBe(name.split('', 200).concat('...').join(''))
+    expect(descriptionCell.textContent).toHaveLength(203)
+    expect(descriptionCell.textContent).toBe(description.split('', 200).concat('...').join(''))
   })
   test('Should show no content if no description and name exist', () => {
     const rows = mockedRepositoriesPaginator()
