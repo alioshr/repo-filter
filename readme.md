@@ -5,7 +5,8 @@ This is really simple git repositories searcher
 > ##  Index
 
 * [Initialization instructions](#initialization-instruction)
-* [Requirements](#requirements)
+* [Use cases requirements](#use-cases-requirements)
+* [Pages requirements](#pages-requirements)
 * [Design Patterns](#design-patterns)
 * [Methodologies & Designs](#methodologies-and-designs)
 * [Tests Features](#tests-features)
