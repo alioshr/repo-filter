@@ -18,7 +18,7 @@ const MainData: React.FC<Props> = ({ rows }) => {
         >
           <TableCell component="th" scope="row" data-testid="name-cell">
             {row.name?.length > 200
-              ? row.name?.split('', 200).concat('...')
+              ? row.name?.split('', 200).concat('...').join('')
               : row.name}
           </TableCell>
           <TableCell
@@ -27,7 +27,7 @@ const MainData: React.FC<Props> = ({ rows }) => {
             data-testid="description-cell"
           >
             {row.description?.length > 200
-              ? row.description?.split('', 200).concat('...')
+              ? row.description?.split('', 200).concat('...').join('')
               : row.description}
           </TableCell>
           <TableCell style={{ width: 160 }} align="right">
