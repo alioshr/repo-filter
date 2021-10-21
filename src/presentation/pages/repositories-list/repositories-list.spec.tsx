@@ -3,7 +3,6 @@ import {
   RenderResult,
   render,
   screen,
-  waitFor,
   cleanup,
   fireEvent
 } from '@testing-library/react'
@@ -19,7 +18,7 @@ import * as Helper from '@/presentation/test/form-helper'
 
 const ERROR_MESSAGE = faker.random.word()
 
-const makeValidSubmit = (value: string): void => {
+const makeValidSubmit = (value: string = faker.random.word()): void => {
   Helper.populateField('name-input', value)
   Helper.clickElement('submit-button')
 }
@@ -37,6 +36,14 @@ const renderScreen = (
   response.total_count = 100
   getRepositoriesSpy.response = response
   makeSut(getRepositoriesSpy)
+}
+
+const populatePaginatorSelect = (value: string): void => {
+  const dataTable = screen.getByTestId('data-table')
+  const perPageSelector = dataTable.querySelector(
+    'select.MuiTablePagination-select'
+  ) as HTMLSelectElement
+  fireEvent.change(perPageSelector, { target: { value } })
 }
 
 type SutTypes = {
@@ -94,7 +101,7 @@ describe('RepositoriesList', () => {
   })
   test('Should disable submit button while getting', async () => {
     renderScreen()
-    makeValidSubmit(faker.random.word())
+    makeValidSubmit()
     Helper.testButtonDisabled('submit-button', true)
   })
   test('Should render proper error message if GetRepositories throws on submit', async () => {
@@ -103,7 +110,7 @@ describe('RepositoriesList', () => {
     makeSut(getRepositoriesSpy)
     await Helper.waitForElement('data-table')
     jest.spyOn(getRepositoriesSpy, 'get').mockRejectedValueOnce(error)
-    makeValidSubmit(faker.random.word())
+    makeValidSubmit()
     await Helper.waitForElement('data-table')
     Helper.testFieldTextContent('main-error', error.message)
   })
@@ -117,7 +124,7 @@ describe('RepositoriesList', () => {
     const { validatorSpy } = makeSut(getRepositoriesSpy)
     await Helper.waitForElement('data-table')
     jest.spyOn(getRepositoriesSpy, 'get').mockResolvedValueOnce(emptyData)
-    makeValidSubmit(faker.random.word())
+    makeValidSubmit()
     jest
       .spyOn(validatorSpy, 'validate')
       .mockImplementationOnce(() => new NoContentError().message)
@@ -130,21 +137,21 @@ describe('RepositoriesList', () => {
     await Helper.waitForElement('data-table')
     const secondResponse = mockedRepositoriesPaginator()
     jest.spyOn(getRepositoriesSpy, 'get').mockResolvedValueOnce(secondResponse)
-    makeValidSubmit(faker.random.word())
+    makeValidSubmit()
     await Helper.waitForElement('data-table')
     expect(screen.getByText(secondResponse.items[0].description)).toBeTruthy()
     expect(screen.getByTestId('row-0')).toBeTruthy()
   })
   test('Should present 5 skeleton rows while loading', async () => {
     makeSut()
-    makeValidSubmit(faker.random.word())
+    makeValidSubmit()
     testGridElementsLength(5, 0)
     expect(screen.queryByTestId('main-error')).toBeNull()
   })
   test('Should load repositories on success', async () => {
     const response = mockedRepositoriesPaginator()
     renderScreen(undefined, response)
-    makeValidSubmit(faker.random.word())
+    makeValidSubmit()
     await Helper.waitForElement('data-table')
     testGridElementsLength(0, 1)
     expect(screen.queryByTestId('main-error')).toBeNull()
@@ -156,7 +163,7 @@ describe('RepositoriesList', () => {
     const error = new UnexpectedError()
     jest.spyOn(getRepositoriesSpy, 'get').mockRejectedValueOnce(error)
     makeSut(getRepositoriesSpy)
-    makeValidSubmit(faker.random.word())
+    makeValidSubmit()
     await Helper.waitForElement('data-table')
     Helper.testFieldTextContent('main-error', error.message)
   })
@@ -165,14 +172,14 @@ describe('RepositoriesList', () => {
     const error = new UnavailableError()
     jest.spyOn(getRepositoriesSpy, 'get').mockRejectedValueOnce(error)
     makeSut(getRepositoriesSpy)
-    makeValidSubmit(faker.random.word())
+    makeValidSubmit()
     await Helper.waitForElement('data-table')
     Helper.testFieldTextContent('main-error', error.message)
   })
   test('Should call GetRepositories with the proper page on pagination', async () => {
     const getRepositoriesSpy = new GetRepositoriesSpy()
     renderScreen(getRepositoriesSpy)
-    makeValidSubmit(faker.random.word())
+    makeValidSubmit()
     await Helper.waitForElement('data-table')
     Helper.clickElement('next-page')
     expect(getRepositoriesSpy.callCount).toBe(2)
@@ -204,7 +211,7 @@ describe('RepositoriesList', () => {
   test('Should present error if pagination fails', async () => {
     const getRepositoriesSpy = new GetRepositoriesSpy()
     renderScreen(getRepositoriesSpy)
-    makeValidSubmit(faker.random.word())
+    makeValidSubmit()
     await Helper.waitForElement('data-table')
     const error = new UnavailableError()
     jest.spyOn(getRepositoriesSpy, 'get').mockRejectedValueOnce(error)
@@ -215,29 +222,21 @@ describe('RepositoriesList', () => {
   test('Should present error if rows per page selection fails', async () => {
     const getRepositoriesSpy = new GetRepositoriesSpy()
     renderScreen(getRepositoriesSpy)
-    makeValidSubmit(faker.random.word())
-    const dataTable = screen.getByTestId('data-table')
-    await waitFor(() => dataTable)
+    makeValidSubmit()
+    await Helper.waitForElement('data-table')
     await Helper.waitForElement('data-table')
     const error = new UnavailableError()
     jest.spyOn(getRepositoriesSpy, 'get').mockRejectedValueOnce(error)
-    const perPageSelector = dataTable.querySelector(
-      'select.MuiTablePagination-select'
-    ) as HTMLSelectElement
-    fireEvent.change(perPageSelector, { target: { value: '25' } })
-    await waitFor(() => dataTable)
+    populatePaginatorSelect('25')
+    await Helper.waitForElement('data-table')
     Helper.testFieldTextContent('main-error', error.message)
   })
   test('Should call GetRepositories with the proper rowsPerpage values when changing the option', async () => {
     const getRepositoriesSpy = new GetRepositoriesSpy()
     renderScreen(getRepositoriesSpy)
-    makeValidSubmit(faker.random.word())
-    const dataTable = screen.getByTestId('data-table')
-    await waitFor(() => dataTable)
-    const perPageSelector = dataTable.querySelector(
-      'select.MuiTablePagination-select'
-    ) as HTMLSelectElement
-    fireEvent.change(perPageSelector, { target: { value: '25' } })
+    makeValidSubmit()
+    await Helper.waitForElement('data-table')
+    populatePaginatorSelect('25')
     expect(getRepositoriesSpy.params?.per_page).toBe(25)
     expect(getRepositoriesSpy.callCount).toBe(2)
   })
