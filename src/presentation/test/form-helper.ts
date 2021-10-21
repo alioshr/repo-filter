@@ -1,4 +1,3 @@
-import faker from 'faker'
 import { waitFor, fireEvent, screen } from '@testing-library/react'
 
 export const waitForElement = async (testId: string): Promise<void> => {
@@ -21,7 +20,7 @@ export const clickElement = (testId: string): void => {
 
 export const populateField = (
   fieldName: string,
-  value: string = faker.random.word()
+  value: string
 ): void => {
   const inputWrapper = screen.getByTestId(fieldName)
   const input = inputWrapper.querySelector(
