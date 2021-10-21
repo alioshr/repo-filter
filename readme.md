@@ -4,7 +4,7 @@ This is really simple git repositories searcher
 
 > ##  Index
 
-* [Initialization instructions](#init-instruction)
+* [Initialization instructions](#initialization-instruction)
 * [Requirements](#requirements)
 * [Design Patterns](#design-patterns)
 * [Methodologies & Designs](#methodologies-and-designs)
@@ -12,10 +12,9 @@ This is really simple git repositories searcher
 * [Libs & Tools](#libs-and-tools)
 * [Principles](#principles)
 
-> ##  Init instructions
+> ##  Initialization & usage instructions
 
-* Clone the repository
-* run `npm i`
+* install the dependencies: `npm i`
 * start the local server: `npm run start`
 * test coverage: `npm run test:ci`
 * test integration: `npm run test:integration`
