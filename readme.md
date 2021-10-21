@@ -2,17 +2,17 @@
  
 This is really simple git repositories searcher
 
-# Index
+> ##  Index
 
 * [Initialization instructions](#init-instruction)
+* [Requirements](#requirements)
 * [Design Patterns](#design-patterns)
 * [Methodologies & Designs](#methodologies-and-designs)
 * [Tests Features](#tests-features)
 * [Libs & Tools](#libs-and-tools)
 * [Principles](#principles)
-* [Requirements](#requirements)
 
-# Init instructions
+> ##  Init instructions
 
 * Clone the repository
 * run `npm i`
@@ -21,6 +21,14 @@ This is really simple git repositories searcher
 * test integration: `npm run test:integration`
 * unit testing: `npm run test:unit`
 * complete testing: `npm run test`
+
+
+> ## Use Cases requirements
+
+* [Get Repositories](./requirements/usecases/get-repositories.md)
+> ## Pages requirements
+
+* [Repositories list](./requirements/pages/repositories-list.md)
 
 > ## Design Patterns
 
@@ -77,12 +85,3 @@ This is really simple git repositories searcher
 * Keep It Simple, Silly (KISS)
 * Composition Over Inheritance
 * Small Commits
-
-# Requirements
-
-## Use Cases
-
-* [Get Repositories](./requirements/usecases/get-repositories.md)
-## Pages
-
-* [Repositories list](./requirements/pages/repositories-list.md)
