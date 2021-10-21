@@ -26,4 +26,14 @@ describe('MainData', () => {
     expect(nameCell.textContent).toHaveLength(200)
     expect(descriptionCell.textContent).toHaveLength(200)
   })
+  test('Should show no content if no description and name exist', () => {
+    const rows = mockedRepositoriesPaginator()
+    rows.items[0].description = null as any
+    rows.items[0].name = null as any
+    const sut = makeSut(rows.items)
+    const nameCell = sut.getByTestId('name-cell')
+    const descriptionCell = sut.getByTestId('description-cell')
+    expect(nameCell.textContent).toHaveLength(0)
+    expect(descriptionCell.textContent).toHaveLength(0)
+  })
 })
