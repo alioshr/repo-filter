@@ -75,6 +75,9 @@ This is really simple git repositories searcher
 * Lint Staged
 * Eslint
 * Standard Javascript Style
+* Coveralls
+* Travis
+* Snyk
 
 > ## Principles
 
