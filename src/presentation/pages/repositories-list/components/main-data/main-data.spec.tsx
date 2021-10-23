@@ -27,7 +27,9 @@ describe('MainData', () => {
     const nameCell = sut.getByTestId('name-cell')
     const descriptionCell = sut.getByTestId('description-cell')
     expect(nameCell.textContent).toBe(useTruncate(name, 200))
+    expect(nameCell.textContent?.length).toBeLessThan(204)
     expect(descriptionCell.textContent).toBe(useTruncate(description, 200))
+    expect(descriptionCell.textContent?.length).toBeLessThan(204)
   })
   test('Should show no content if no description and name exist', () => {
     const rows = mockedRepositoriesPaginator()
