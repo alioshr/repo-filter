@@ -1,4 +1,5 @@
 import { Repository } from '@/domain/models'
+import { useTruncate } from '@/presentation/hooks'
 import { TableRow, TableCell } from '@material-ui/core'
 import React from 'react'
 import Styles from './main-data-styles.scss'
@@ -17,18 +18,14 @@ const MainData: React.FC<Props> = ({ rows }) => {
           className={Styles.dataRow}
         >
           <TableCell component="th" scope="row" data-testid="name-cell">
-            {row.name?.length > 200
-              ? row.name?.split('', 200).concat('...').join('')
-              : row.name}
+            {useTruncate(row.name, 200)}
           </TableCell>
           <TableCell
             style={{ width: 240 }}
             align="right"
             data-testid="description-cell"
           >
-            {row.description?.length > 200
-              ? row.description?.split('', 200).concat('...').join('')
-              : row.description}
+            {useTruncate(row.description, 200)}
           </TableCell>
           <TableCell style={{ width: 160 }} align="right">
             {new Date(row.created_at).getMonth() + 1}/
