@@ -57,7 +57,7 @@ const DataTable: React.FC = () => {
         </TableBody>
         <TableFooter>
           <TableRow>
-            <TablePagination
+            {!state.mainError && <TablePagination
               rowsPerPageOptions={[5, 10, 25]}
               colSpan={4}
               count={state.totalCount as number}
@@ -72,7 +72,7 @@ const DataTable: React.FC = () => {
               onPageChange={handleChangePage}
               onRowsPerPageChange={handleChangeRowsPerPage}
               ActionsComponent={TablePaginationActions}
-            />
+            />}
           </TableRow>
         </TableFooter>
       </Table>
