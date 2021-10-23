@@ -167,6 +167,18 @@ describe('RepositoriesList', () => {
     await Helper.waitForElement('data-table')
     Helper.testFieldTextContent('main-error', error.message)
   })
+  test('Should hide the pagination toolbar in case of any error', async () => {
+    const getRepositoriesSpy = new GetRepositoriesSpy()
+    const error = new UnexpectedError()
+    jest.spyOn(getRepositoriesSpy, 'get').mockRejectedValueOnce(error)
+    makeSut(getRepositoriesSpy)
+    makeValidSubmit()
+    await Helper.waitForElement('data-table')
+    Helper.testFieldTextContent('main-error', error.message)
+    const dataTable = screen.getByTestId('data-table')
+    const paginationWrapper = dataTable.querySelector('td.MuiTablePagination-root')
+    expect(paginationWrapper).toBeNull()
+  })
   test('Should render proper error if GetRepositories throws UnavailableError', async () => {
     const getRepositoriesSpy = new GetRepositoriesSpy()
     const error = new UnavailableError()
