@@ -5,7 +5,7 @@
 # Repository searcher
 
 This is really simple git repositories searcher
-
+  
 > ##  Index
 
 * [Initialization instructions](#initialization-instruction)
