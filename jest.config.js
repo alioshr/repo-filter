@@ -4,7 +4,8 @@ module.exports = {
     '<rootDir>/src/**/*.{ts,tsx}',
     '!**/*.d.ts',
     '!<rootDir>/src/main/**/*',
-    '!<rootDir>/src/presentation/router/**/*'
+    '!<rootDir>/src/presentation/router/**/*',
+    '!<rootDir>/src/validation/errors/**/*'
   ],
   coverageDirectory: 'coverage',
   testPathIgnorePatterns: [
