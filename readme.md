@@ -1,4 +1,4 @@
-[![Coverage Status](https://coveralls.io/repos/github/alioshr/repo-filter/badge.svg?branch=master)](https://coveralls.io/github/alioshr/repo-filter?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/alioshr/repo-filter/badge.svg?branch=master)](https://coveralls.io/github/alioshr/repo-filter)
 [![Build Status](https://app.travis-ci.com/alioshr/repo-filter.svg?branch=master)](https://app.travis-ci.com/alioshr/repo-filter)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com)
 [![Known Vulnerabilities](https://snyk.io/test/github/alioshr/repo-filter/badge.svg)](https://snyk.io/test/github/alioshr/repo-filter)
