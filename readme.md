@@ -3,7 +3,7 @@
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com)
 [![Known Vulnerabilities](https://snyk.io/test/github/alioshr/repo-filter/badge.svg)](https://snyk.io/test/github/alioshr/repo-filter)
 # Repository searcher
- 
+
 This is really simple git repositories searcher
 
 > ##  Index
